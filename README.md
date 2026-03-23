@@ -5,4 +5,5 @@
 
 
 ### [1. Phoenix Live View]
-  - ### [1.1 File Structure](notes/intermediate/1.md)
+  - ### [1.1 React to Phoenix](notes/intermediate/1.md)
+  - ### [1.2 Routing in Phoenix - Basic Livew View Only](notes/intermediate/2.md)
