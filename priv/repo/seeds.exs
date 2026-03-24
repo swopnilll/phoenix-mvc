@@ -12,7 +12,30 @@
 
 alias Hello.Repo
 alias Hello.Catalog.Product
+alias Hello.Accounts.User
 
+# ============================================
+# USERS - Different roles for testing auth
+# ============================================
+users = [
+  %{name: "Alice Admin", email: "alice@example.com", role: "admin"},
+  %{name: "Mike Manager", email: "mike@example.com", role: "manager"},
+  %{name: "Gary Guest", email: "gary@example.com", role: "guest"}
+]
+
+for user <- users do
+  Repo.insert!(%User{
+    name: user.name,
+    email: user.email,
+    role: user.role
+  })
+end
+
+IO.puts("Seeded #{length(users)} users")
+
+# ============================================
+# PRODUCTS
+# ============================================
 products = [
   %{name: "Laptop", price: Decimal.new("999.99"), description: "15-inch display, 16GB RAM"},
   %{name: "Headphones", price: Decimal.new("149.99"), description: "Wireless noise-canceling"},

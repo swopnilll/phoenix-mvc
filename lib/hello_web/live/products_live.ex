@@ -2,46 +2,77 @@ defmodule HelloWeb.ProductsLive do
   use HelloWeb, :live_view
 
   alias Hello.Catalog
+  alias Hello.Accounts
 
   def mount(_params, _session, socket) do
-    # direct DB call, no fetch/await needed
-    products = Catalog.list_products()
+    # For now, we'll get user from URL param (later this comes from auth session)
+    # Default to user ID 1 if not specified
+    current_user = Accounts.get_user(1)
 
-    # socket = assign(socket, :products, products)
-    # assign() puts data into the socket — like setState in React
-    # :products is the key, products is the value
+    # Check if user can view products
+    if current_user && Bodyguard.permit?(Catalog, :list_products, current_user) do
+      products = Catalog.list_products()
 
-    socket =
-      socket
-      |> assign(:products, products)
-      |> assign(:loading, false)
-      |> assign(:page_title, "Products")
+      socket =
+        socket
+        |> assign(:products, products)
+        |> assign(:current_user, current_user)
+        |> assign(:can_delete, Bodyguard.permit?(Catalog, :delete_product, current_user))
+        |> assign(:page_title, "Products")
 
-    {:ok, socket}
+      {:ok, socket}
+    else
+      # Not authorized - redirect to home
+      socket =
+        socket
+        |> put_flash(:error, "You don't have permission to view products")
+        |> redirect(to: "/")
+
+      {:ok, socket}
+    end
   end
 
   def handle_event("delete_product", %{"id" => id}, socket) do
-    Catalog.delete_product(id)
-    products = Catalog.list_products()
-    {:noreply, assign(socket, :products, products)}
+    current_user = socket.assigns.current_user
+
+    # Check permission before deleting
+    if Bodyguard.permit?(Catalog, :delete_product, current_user) do
+      Catalog.delete_product(id)
+      products = Catalog.list_products()
+      {:noreply, assign(socket, :products, products)}
+    else
+      {:noreply, put_flash(socket, :error, "You don't have permission to delete products")}
+    end
   end
 
-  @spec render(any()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
-    <h1>Products</h1>
+    <div class="p-4">
+      <h1 class="text-2xl font-bold mb-4">Products</h1>
 
-    <ul>
-      <%= for product <- @products do %>
-        <li>
-          <strong>{product.name}</strong>
-          — ${product.price}
-          <button phx-click="delete_product" phx-value-id={product.id}>
-            Delete
-          </button>
-        </li>
-      <% end %>
-    </ul>
+      <p class="mb-4 text-sm text-gray-600">
+        Logged in as: <strong>{@current_user.name}</strong> (role: {@current_user.role})
+      </p>
+
+      <ul class="space-y-2">
+        <%= for product <- @products do %>
+          <li class="flex items-center gap-4 p-2 bg-base-200 rounded">
+            <strong>{product.name}</strong>
+            <span>— ${product.price}</span>
+
+            <%= if @can_delete do %>
+              <button
+                phx-click="delete_product"
+                phx-value-id={product.id}
+                class="btn btn-error btn-sm"
+              >
+                Delete
+              </button>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
     """
   end
 end
