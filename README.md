@@ -70,6 +70,7 @@ lib/
 | 2 | Routing in Phoenix (LiveView) | [notes/intermediate/2.md](notes/intermediate/2.md) |
 | 3 | Database Calls and LiveView | [notes/intermediate/3.md](notes/intermediate/3.md) |
 | 4 | File Upload in LiveView | [notes/intermediate/4.md](notes/intermediate/4.md) |
+| 10 | File Uploads & Xlsxir (Excel Processing) | [notes/intermediate/10.md](notes/intermediate/10.md) |
 
 ### Ecto & Database
 
@@ -88,7 +89,8 @@ lib/
 | # | Topic | File |
 |---|-------|------|
 | 7 | Phoenix Context Pattern | [notes/intermediate/7.md](notes/intermediate/7.md) |
-| 8 | Understanding @spec in Elixir (Type Specifications) | [notes/intermediate/8.md](notes/intermediate/8.md) |
+| 8 | Understanding @spec (Type Specifications) | [notes/intermediate/8.md](notes/intermediate/8.md) |
+| 9 | use, require, import, alias Explained | [notes/intermediate/9.md](notes/intermediate/9.md) |
 
 ---
 

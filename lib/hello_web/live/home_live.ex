@@ -7,7 +7,10 @@ defmodule HelloWeb.HomeLive do
     <.link navigate={~p"/products"}>
       <button>Go To Products</button>
     </.link>
+    <br>
+    <.link navigate={~p"/products-upload"}>
+      <button>Upload Product Data</button>
+    </.link>
     """
   end
-
 end

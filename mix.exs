@@ -66,7 +66,8 @@ defmodule Hello.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:bodyguard, "~> 2.4"}
+      {:bodyguard, "~> 2.4"},
+      {:xlsxir, "~> 1.6"}
     ]
   end
 

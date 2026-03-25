@@ -21,6 +21,7 @@ defmodule HelloWeb.Router do
 
     live "/", HomeLive
     live "/products", ProductsLive
+    live "/products-upload", ProductsUploadLive
   end
 
   # Other scopes may use custom stacks.
