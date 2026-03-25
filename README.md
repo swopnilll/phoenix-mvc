@@ -88,6 +88,7 @@ lib/
 | # | Topic | File |
 |---|-------|------|
 | 7 | Phoenix Context Pattern | [notes/intermediate/7.md](notes/intermediate/7.md) |
+| 8 | Understanding @spec in Elixir (Type Specifications) | [notes/intermediate/8.md](notes/intermediate/8.md) |
 
 ---
 
