@@ -61,7 +61,8 @@ lib/
 | # | Topic | File |
 |---|-------|------|
 | 1 | Phoenix File Structure | [notes/intro/1.md](notes/intro/1.md) |
-| 2 | Phoenix File Structure | [notes/intro/2.md](notes/intro/2.md) |
+| 2 | From Browser to Response | [notes/intro/2.md](notes/intro/2.md) |
+| 3 | Phoenix Controller Naming Conventions | [notes/intro/3.md](notes/intro/3.md) |
 
 ### Phoenix LiveView
 
