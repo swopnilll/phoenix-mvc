@@ -61,6 +61,7 @@ lib/
 | # | Topic | File |
 |---|-------|------|
 | 1 | Phoenix File Structure | [notes/intro/1.md](notes/intro/1.md) |
+| 2 | Phoenix File Structure | [notes/intro/2.md](notes/intro/2.md) |
 
 ### Phoenix LiveView
 
