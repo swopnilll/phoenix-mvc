@@ -62,10 +62,17 @@ defmodule HelloWeb.ProductsUploadLive do
   #
   def do_import(socket) do
     # consume_uploaded_entries returns a LIST: [[row1, row2, ...]]
-    # Pattern match to extract the first (and only) result
-    [rows] = consume_uploaded_entries(socket, :sheet, &parse_excel_file/2)
 
-    {:noreply, assign(socket, :uploaded_file, rows)}
+    uploaded_results = consume_uploaded_entries(socket, :sheet, &parse_excel_file/2)
+    IO.inspect(uploaded_results, label: "uploaded_results")
+
+    case uploaded_results do
+      [] ->
+        {:noreply, put_flash(socket, :error, "No File Uploaded")}
+
+      [rows] ->
+        {:noreply, assign(socket, :uploaded_file, rows)}
+    end
   end
 
   # ----------------------------------------------------------------------------
@@ -108,17 +115,18 @@ defmodule HelloWeb.ProductsUploadLive do
   # in JavaScript, but built into the language conventions.
   #
   def parse_excel_file(%{path: file_path}, _entry) do
-    #  {:ok, tableId} = Xlsxir.multi_extract(file_path, 0)
-    #  IO.inspect(tableId, label: "tableId")
-
     case Xlsxir.multi_extract(file_path, 0) do
       {:ok, table_id} ->
-        IO.inspect(table_id, label: "Its working: ")
+        # Get all rows from the Excel sheet
         all_rows = Xlsxir.get_list(table_id)
+
+        # IMPORTANT: Always close the table to free memory
+        Xlsxir.close(table_id)
+
         {:ok, all_rows}
 
       {:error, reason} ->
-        IO.inspect(reason, label: "Error reason: ")
+        IO.inspect(reason, label: "Error parsing Excel")
         {:error, reason}
     end
   end

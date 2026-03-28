@@ -51,5 +51,15 @@ defmodule HelloWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  plug :check_promo_code
+
   plug HelloWeb.Router
+
+
+  def check_promo_code(%Plug.Conn{params: params} = conn, _opts) do
+    promo_code = params["promo_code"]
+    IO.inspect(promo_code, label: "Params")
+    conn
+  end
 end
